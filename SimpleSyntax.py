@@ -25,13 +25,28 @@ while currentCodeLine != "sendOut":
           elif wordsInLine[x - 1] == "output":
             if wordsInLine[x + 1] == "input":
               print(input())
-            elif vars.get(wordsInLine[x + 1]) is not None:
-              if (x + 2) < len(wordsInLine) and vars.get(wordsInLine[x + 2]) is not None:
-                print(vars.get(wordsInLine[x + 1]) + vars.get(wordsInLine[x + 2]))
-              else:
-                print(vars.get(wordsInLine[x + 1]))
-            else:
-              print(" ".join(wordsInLine[x+1:]))
+            else: 
+              y = 1
+              z = 2
+              finalString = ""
+              while (x + y) < len(wordsInLine):
+                if vars.get(wordsInLine[x + y]) is not None:
+                  if y == z:
+                    finalString += " %s" % wordsInLine[x+y]
+                  else:
+                    finalString += " %s" % " ".join(wordsInLine[z:x+y])
+                  while (x + y) < len(wordsInLine) and vars.get(wordsInLine[x + y]) is not None:
+                    finalString += " %s" % vars.get(wordsInLine[x + y])
+                    y += 1 
+                  z = y + 1
+                else:
+                  y += 1
+              if z <= y:
+                if z == y:
+                  finalString += " %s" % wordsInLine[x+1]
+                else:
+                  finalString += " %s" % " ".join(wordsInLine[z:(len(wordsInLine))])
+              print(finalString)
           elif wordsInLine[x + 1] == "input":
             if vars.get(wordsInLine[x - 1]) is not None:
               vars[wordsInLine[x - 1]] = input()
